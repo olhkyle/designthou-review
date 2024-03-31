@@ -27,7 +27,8 @@ export default function Nav() {
 					</h1>
 					<Button
 						type={'button'}
-						className={'inline-flex gap-2 text-xs bg-black text-white hover:bg-gray-800 sm:text-sm'}>
+						className={'inline-flex gap-2 text-xs bg-black text-white hover:bg-gray-800 sm:text-sm'}
+						onClick={() => router.push('/auth')}>
 						<span>인증하기</span>
 					</Button>
 				</div>

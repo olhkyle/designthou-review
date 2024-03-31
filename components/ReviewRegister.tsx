@@ -24,7 +24,7 @@ export default function ReviewRegister() {
 					등 록
 				</Button>
 			</Flex>
-			<p className="px-3 py-2 text-gray-700 text-sm">* 후기는 1000자로 제한됩니다.</p>
+			<p className="px-3 py-2 text-gray-700 text-sm">* 후기는 500자로 제한됩니다.</p>
 		</Flex>
 	);
 }
