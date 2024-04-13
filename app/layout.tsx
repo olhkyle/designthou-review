@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="ko">
 			<head>
-				<link rel="icon" type="image/*" href="./favicon.ico" />
+				<link rel="icon" sizes="any" href="/favicon.ico" />
 				<meta name="description" content="Designthou Review App" />
 				<meta property="og:title" content="Designthou Review" />
 				<meta property="og:description" content="Designthou Review App" />
