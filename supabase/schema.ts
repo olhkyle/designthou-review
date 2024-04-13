@@ -10,6 +10,7 @@ export interface Database {
 					title: string;
 					content: string;
 					imgSrc: string;
+					course: string;
 				};
 				Insert: {
 					id?: never;
@@ -17,6 +18,7 @@ export interface Database {
 					title?: string;
 					content?: string;
 					imgSrc?: string;
+					course: string;
 				};
 				Update: {
 					id?: never;
@@ -24,6 +26,7 @@ export interface Database {
 					title?: string;
 					content?: string;
 					imgSrc?: string;
+					course: string;
 				};
 			};
 		};
