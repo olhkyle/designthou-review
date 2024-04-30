@@ -1,9 +1,13 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 import './globals.css';
-import Nav from '@/components/common/Nav';
+import { RootProvider } from '@/components';
 
-const inter = Inter({ subsets: ['latin'] });
+const poppins = Poppins({
+	weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+	style: ['normal', 'italic'],
+	subsets: ['latin'],
+});
 
 export const metadata: Metadata = {
 	title: 'DesignThou Review',
@@ -26,11 +30,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<meta name="theme-color" content="#fff" media="(prefers-color-scheme: light)" />
 				<meta name="theme-color" content="#090b16" media="(prefers-color-scheme: dark)" />
 			</head>
-			<body className={inter.className}>
-				<div id="wrap" className="mx-auto md:w-[768px]">
-					<Nav />
-					<main className="px-[1rem] ">{children}</main>
-				</div>
+			<body className={poppins.className}>
+				<RootProvider>{children}</RootProvider>
 			</body>
 		</html>
 	);
