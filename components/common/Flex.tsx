@@ -7,6 +7,7 @@ interface FlexProps {
 	alignItems?: 'items-start' | 'items-center' | 'items-end';
 	margin?: string;
 	padding?: string;
+	additionalStyle?: string;
 	children: ReactNode;
 }
 
@@ -17,13 +18,14 @@ export default function Flex({
 	alignItems = 'items-start',
 	margin = '',
 	padding = '',
+	additionalStyle = '',
 	children,
 }: FlexProps) {
 	return (
 		<div
 			className={`flex ${
 				direction === 'col' && 'flex-col'
-			} ${gap} ${justifyContent} ${alignItems} ${margin} ${padding} w-full`}>
+			} ${gap} ${justifyContent} ${alignItems} ${margin} ${padding} ${additionalStyle} w-full`}>
 			{children}
 		</div>
 	);
