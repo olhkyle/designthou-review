@@ -1,6 +1,6 @@
 import { createClient } from '@/supabase/server';
-import ReviewRegister from '@/components/ReviewRegister';
 import Link from 'next/link';
+import { ReviewRegister } from '@/components';
 
 export default async function Home() {
 	const supabase = createClient();
