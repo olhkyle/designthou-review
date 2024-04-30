@@ -29,6 +29,32 @@ export interface Database {
 					course: string;
 				};
 			};
+			users: {
+				Row: {
+					userId: number;
+					role: string;
+					userEmail: string;
+					userLoginned: string;
+					username: string;
+					nickname: string;
+				};
+				Insert: {
+					userId: number;
+					role: string;
+					userEmail: string;
+					userLoginned: string;
+					username: string;
+					nickname: string;
+				};
+				Update: {
+					userId: number;
+					role: string;
+					userEmail: string;
+					userLoginned: string;
+					username: string;
+					nickname: string;
+				};
+			};
 		};
 	};
 }
