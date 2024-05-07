@@ -51,12 +51,12 @@ export default function Nav() {
 							className={`${
 								isDropdownActive ? 'absolute' : 'hidden'
 							} top-10 right-0 flex flex-col items-center p-2 w-[100px] bg-gray-100 rounded-md border-[1px] border-gray-300`}>
-							<Button type="button" className="font-normal text-sm text-black hover:bg-gray-400 hover:font-semibold">
+							<Button type="button" className="font-normal text-sm text-dark hover:bg-gray-400 hover:font-semibold">
 								내 정보
 							</Button>
 							<Button
 								type="button"
-								className="font-normal text-sm text-black hover:bg-gray-400 hover:font-semibold"
+								className="font-normal text-sm text-dark hover:bg-gray-400 hover:font-semibold"
 								onClick={() => {
 									setUser(null);
 									setDropdownActive(false);

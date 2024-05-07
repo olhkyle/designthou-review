@@ -16,7 +16,7 @@ export default function Button({ type, className, disabled = false, onClick, chi
 			type={type}
 			onClick={onClick}
 			disabled={disabled}
-			className={`${className} rounded-lg text-white font-bold px-[12px] py-[6px]`}>
+			className={`${className} rounded-lg font-bold px-[12px] py-[6px]`}>
 			{children}
 		</button>
 	);

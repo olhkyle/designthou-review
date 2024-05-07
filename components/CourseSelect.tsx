@@ -8,7 +8,7 @@ interface CourseSelectProps {
 
 export default function CourseSelect({ target, setTarget }: CourseSelectProps) {
 	return (
-		<ul className="flex gap-2 px-2 pt-4 pb-2 w-full overflow-x-scroll">
+		<ul className="flex gap-2 px-1 pt-4 pb-2 w-full overflow-x-scroll">
 			{course.map(item => (
 				<li
 					key={item}
