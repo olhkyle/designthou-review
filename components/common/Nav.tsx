@@ -51,7 +51,13 @@ export default function Nav() {
 							className={`${
 								isDropdownActive ? 'absolute' : 'hidden'
 							} top-10 right-0 flex flex-col items-center p-2 w-[100px] bg-gray-100 rounded-md border-[1px] border-gray-300`}>
-							<Button type="button" className="font-normal text-sm text-dark hover:bg-gray-400 hover:font-semibold">
+							<Button
+								type="button"
+								className="font-normal text-sm text-dark hover:bg-gray-400 hover:font-semibold"
+								onClick={() => {
+									setDropdownActive(false);
+									router.push(`/mypage/${user?.userId}`);
+								}}>
 								내 정보
 							</Button>
 							<Button
@@ -60,6 +66,7 @@ export default function Nav() {
 								onClick={() => {
 									setUser(null);
 									setDropdownActive(false);
+									router.push('/');
 								}}>
 								로그아웃
 							</Button>

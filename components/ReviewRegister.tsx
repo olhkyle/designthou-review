@@ -7,6 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { FaRegImage } from 'react-icons/fa6';
 import { MdClose } from 'react-icons/md';
 import { createClient } from '@/supabase/client';
+import course from '@/constants/course';
 
 export default function ReviewRegister() {
 	const supabase = createClient();
@@ -37,20 +38,22 @@ export default function ReviewRegister() {
 	const uploadImageOnStorage = async () => {
 		try {
 			if (postImages.length === 0) return;
+
 			const newFileName = uuid();
 
-			const { data, error } = await supabase.storage
+			const { error: uploadError } = await supabase.storage
 				.from('review_images')
 				.upload(`reviews/${newFileName}`, postImages[0], {
 					cacheControl: '3600',
 					upsert: false,
 				});
 
-			if (error) {
+			if (uploadError) {
 				console.error('이미지를 업로드하는데 문제가 발생하였습니다');
+				throw uploadError;
 			}
-			console.log(data);
 
+			// TODO: 개별 사용자마다 작성한 후기 내용 추가
 			// 마이페이지 내에 내가 작성한 후기 페이지로 이동
 		} catch (error) {
 			console.error('문제가 발생하였습니다', error);
@@ -88,6 +91,7 @@ export default function ReviewRegister() {
 								id="review_image"
 								name="review_image"
 								alt="review_upload"
+								accept="image/*"
 								ref={imageRef}
 								onChange={handleImageUpload}
 								className="hidden"
@@ -128,7 +132,9 @@ export default function ReviewRegister() {
 					<Button
 						type={'button'}
 						className={`ml-auto mt-2 w-full text-white sm:w-auto ${
-							content.length === 0 ? 'bg-gray-400 text-gray-700 ' : 'bg-orange-200 hover:bg-orange-100'
+							content.length === 0 || target.length === 0
+								? 'bg-gray-400 text-gray-700 '
+								: 'bg-orange-200 hover:bg-orange-100'
 						}`}
 						disabled={content.length === 0}
 						onClick={uploadImageOnStorage}>

@@ -28,6 +28,14 @@ export interface Database {
 					imgSrc?: string;
 					course: string;
 				};
+				Delete: {
+					id?: never;
+					userId: string;
+					title?: string;
+					content?: string;
+					imgSrc?: string;
+					course: string;
+				};
 			};
 			users: {
 				Row: {
@@ -58,3 +66,6 @@ export interface Database {
 		};
 	};
 }
+
+export type Review = Database['public']['Tables']['reviews']['Row'];
+export type User = Database['public']['Tables']['users']['Row'];

@@ -25,12 +25,11 @@ export default function AuthForm() {
 	const setUser = useSetRecoilState(userState);
 
 	const onSubmit = async ({ email }: AuthSchema) => {
-		console.log(email);
 		try {
-			const { data: user, error } = await supabase.from('users').select('*').eq('userEmail', email);
+			const { data: user, error } = await supabase.from('users').select('*').eq('userEmail', email).single();
 
 			if (user?.length !== 0) {
-				setUser(user?.[0]);
+				setUser(user);
 				router.push('/');
 			} else {
 				throw error;

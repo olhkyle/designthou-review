@@ -12,10 +12,20 @@ export default function CourseSelect({ target, setTarget }: CourseSelectProps) {
 			{course.map(item => (
 				<li
 					key={item}
-					className={`px-2 py-1 text-sm border-[1px] ${
-						target === item ? 'bg-white border-rose-500 font-semibold' : 'bg-gray-300 border-white'
+					className={`px-2 py-1 h-[30px] text-sm border-[1px] ${
+						target === item
+							? 'bg-white border-rose-500 font-semibold'
+							: item === 'X'
+								? 'text-white bg-gray-800 border-white'
+								: 'bg-gray-300 border-white'
 					} rounded-md cursor-pointer`}
-					onClick={() => setTarget(item)}>
+					onClick={() => {
+						if (item === 'X') {
+							setTarget('');
+							return;
+						}
+						setTarget(item);
+					}}>
 					{item.toUpperCase()}
 				</li>
 			))}
