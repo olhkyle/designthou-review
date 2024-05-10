@@ -4,10 +4,9 @@ import Image from 'next/image';
 import { ChangeEvent, useState, useRef } from 'react';
 import { Button, Flex, TextArea, CourseSelect } from '.';
 import { v4 as uuid } from 'uuid';
-import { FaRegImage } from 'react-icons/fa6';
+import { FaRegImage, FaPlus } from 'react-icons/fa6';
 import { MdClose } from 'react-icons/md';
 import { createClient } from '@/supabase/client';
-import course from '@/constants/course';
 
 export default function ReviewRegister() {
 	const supabase = createClient();
@@ -18,7 +17,7 @@ export default function ReviewRegister() {
 	const [postImages, setPostImages] = useState<File[]>([]);
 	const [previewImageUrl, setPreviewImageUrl] = useState<string>('');
 
-	const [isTextAreaClicked, setTextAreaClicked] = useState<boolean>(false);
+	const [isRegisterToolOpened, setRegisterToolOpened] = useState<boolean>(false);
 
 	const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
 		const images = e.target.files;
@@ -62,27 +61,31 @@ export default function ReviewRegister() {
 
 	return (
 		<Flex
+			position="relative"
 			direction="col"
 			alignItems="items-start"
-			margin={'mt-6'}
-			additionalStyle="px-2 py-4 bg-gray-50 border-[1px] border-gray-300 rounded-lg">
+			margin={'mt-2'}
+			additionalStyle="px-2 py-6 bg-gray-50 border-[1px] border-gray-300 rounded-lg">
 			<Flex gap={'gap-2'} justifyContent={'justify-center'}>
 				<TextArea
 					content={content}
 					placeholder={'후기를 남겨주세요'}
 					width={'w-[100%]'}
 					setContent={setContent}
-					eventHandler={() => setTextAreaClicked(true)}
+					eventHandler={() => setRegisterToolOpened(true)}
 				/>
 			</Flex>
 
 			<CourseSelect target={target} setTarget={setTarget} />
 
-			<div className={`${isTextAreaClicked ? 'block w-full h-auto' : 'invisible h-0'} transition-all ease-in-out`}>
+			<div
+				className={`${
+					isRegisterToolOpened ? 'block w-full h-auto' : 'invisible h-0 overflow-hidden'
+				} transition-all ease-in-out`}>
 				<div className="flex flex-col gap-2 mt-3 w-full sm:flex-row sm:gap-6">
 					<div className="flex gap-2">
 						<div
-							className={`flex flex-col justify-center items-center py-2 bg-white rounded-lg border-[1px] cursor-pointer hover:bg-gray-100 hover:border-gray-600`}
+							className="flex flex-col justify-center items-center py-2 bg-white rounded-lg border-[1px] cursor-pointer hover:bg-gray-100 hover:border-gray-600"
 							onClick={() => {
 								imageRef.current?.click();
 							}}>
@@ -128,10 +131,10 @@ export default function ReviewRegister() {
 						<p className="px-2 py-1 text-gray-700 text-sm">3. 최대 1개의 이미지를 업로드하실 수 있습니다.</p>
 					</div>
 				</div>
-				<div className="flex flex-end">
+				<div className="flex justify-between items-center mt-4">
 					<Button
 						type={'button'}
-						className={`ml-auto mt-2 w-full text-white sm:w-auto ${
+						className={`ml-auto mr-2 w-full text-white sm:w-full ${
 							content.length === 0 || target.length === 0
 								? 'bg-gray-400 text-gray-700 '
 								: 'bg-orange-200 hover:bg-orange-100'
@@ -140,8 +143,28 @@ export default function ReviewRegister() {
 						onClick={uploadImageOnStorage}>
 						등 록
 					</Button>
+					<Button
+						type={'button'}
+						className={`mr-4 w-full text-gray-700 sm:w-full bg-gray-400 border-[1px] hover:border-gray-500`}
+						onClick={() => {
+							setTarget('');
+							setContent('');
+							setPreviewImageUrl('');
+							setPostImages([]);
+						}}>
+						취 소
+					</Button>
 				</div>
 			</div>
+
+			<FaPlus
+				size={24}
+				color={'var(--color-white)'}
+				className={`${
+					isRegisterToolOpened ? 'rotate-45' : 'rotate-0'
+				} absolute -bottom-3 right-4 bg-dark rounded-full cursor-pointer transition-all`}
+				onClick={() => setRegisterToolOpened(!isRegisterToolOpened)}
+			/>
 		</Flex>
 	);
 }
