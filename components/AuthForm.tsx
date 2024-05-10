@@ -7,6 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { createClient } from '@/supabase/client';
 import { useSetRecoilState } from 'recoil';
 import userState from '@/recoil/atom/userState';
+import { toast } from 'react-toastify';
+import route from '@/constants/route';
 
 export default function AuthForm() {
 	const supabase = createClient();
@@ -28,15 +30,19 @@ export default function AuthForm() {
 		try {
 			const { data: user, error } = await supabase.from('users').select('*').eq('userEmail', email).single();
 
+			if (error) {
+				throw error;
+			}
+
 			if (user?.length !== 0) {
 				setUser(user);
-				router.push('/');
-			} else {
-				throw error;
+				router.push(route.HOME);
+				toast.success('인증되었습니다', { delay: 500 });
 			}
 		} catch (error) {
 			reset();
 			setFocus('email');
+			toast.error('이메일을 다시 확인해주세요.');
 			console.error(error);
 		}
 	};
