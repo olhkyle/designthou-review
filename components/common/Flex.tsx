@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 interface FlexProps {
+	position?: 'static' | 'relative' | 'absolute' | 'fixed' | 'sticky';
 	direction?: 'row' | 'col';
 	gap?: string;
 	justifyContent?: 'justify-start' | 'justify-center' | 'justify-end' | 'justify-between' | 'justify-around';
@@ -12,6 +13,7 @@ interface FlexProps {
 }
 
 export default function Flex({
+	position = 'static',
 	direction = 'row',
 	gap = '',
 	justifyContent = 'justify-center',
@@ -23,7 +25,7 @@ export default function Flex({
 }: FlexProps) {
 	return (
 		<div
-			className={`flex ${
+			className={`${position} flex ${
 				direction === 'col' && 'flex-col'
 			} ${gap} ${justifyContent} ${alignItems} ${margin} ${padding} ${additionalStyle} w-full`}>
 			{children}
