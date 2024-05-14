@@ -27,7 +27,7 @@ export default function Nav() {
 	useEffect(() => {
 		setClient(true);
 	}, []);
-	// TODO: 임시저장 기능
+
 	return (
 		<>
 			<nav className="sticky top-0 mx-auto px-[1rem] backdrop-blur sm:bg-white dark:sm:bg-dark sm:backdrop-blur-none md:w-[768px] lg:w-[1024px] z-40">

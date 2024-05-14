@@ -1,7 +1,6 @@
 import { AuthForm } from '@/components';
-import { Suspense } from 'react';
 
-export default async function Page() {
+export default function Page() {
 	return (
 		<div className="flex flex-col justify-center items-center gap-5 mx-auto py-10 max-w-[300px]">
 			<div className="text-2xl font-bold">Get Access</div>

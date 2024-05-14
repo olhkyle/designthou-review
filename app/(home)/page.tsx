@@ -1,12 +1,11 @@
-import { ReviewRegister } from '@/components';
+import { ReviewRegister, Reviews, ReviewsLoading } from '@/components';
 import { Suspense } from 'react';
-import Reviews from '@/components/Reviews';
 
-export default async function Page() {
+export default function Page() {
 	return (
 		<>
 			<ReviewRegister />
-			<Suspense fallback={<h1>Loading...</h1>}>
+			<Suspense fallback={<ReviewsLoading />}>
 				<Reviews />
 			</Suspense>
 		</>

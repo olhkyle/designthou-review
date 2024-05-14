@@ -14,6 +14,8 @@ export default async function Page({ params: { id } }: { params: { id: string } 
 
 	if (error) {
 		throw error;
+	} else if (getMyReviewsError) {
+		throw getMyReviewsError;
 	}
 
 	const { username, userEmail } = user;

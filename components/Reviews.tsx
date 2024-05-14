@@ -1,10 +1,16 @@
+import delay from '@/constants/delay';
 import { createClient } from '@/supabase/client';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default async function Reviews() {
 	const supabase = createClient();
-	const { data: reviews } = await supabase.from('reviews').select('*');
+
+	const { data: reviews, error } = await supabase.from('reviews').select('*');
+
+	if (error) {
+		throw error;
+	}
 
 	return (
 		<ul className="flex flex-col gap-4 my-10">
@@ -16,7 +22,7 @@ export default async function Reviews() {
 						<Image
 							src={imgSrc}
 							alt={`${username}_${title}`}
-							className="w-[250px] sm:w-[400px] "
+							className="w-[250px] sm:w-[400px] object-contain"
 							width={400}
 							height={266}
 							sizes={'(min-width: 640px): 400px, 250px'}

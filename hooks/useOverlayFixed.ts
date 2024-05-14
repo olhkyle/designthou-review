@@ -1,11 +1,8 @@
 import { useEffect } from 'react';
-import useMediaQuery from './useMediaQuery';
 
 const useOverlayFixed = (isOpen: boolean) => {
-	const mobile = useMediaQuery('(max-width: 640px)');
-
 	useEffect(() => {
-		if (isOpen || !mobile) {
+		if (isOpen) {
 			document.body.style.cssText = `
             position: fixed; 
             top: -${window.scrollY}px;
@@ -18,7 +15,7 @@ const useOverlayFixed = (isOpen: boolean) => {
 				window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
 			};
 		}
-	}, [isOpen, mobile]);
+	}, [isOpen]);
 };
 
 export default useOverlayFixed;
