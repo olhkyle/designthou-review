@@ -1,13 +1,5 @@
+import { User } from '@/supabase/schema';
 import { AtomEffect, atom } from 'recoil';
-
-interface User {
-	userId: number;
-	role: 'subscriber' | 'administrator';
-	userEmail: string;
-	userLoggined: string;
-	username: string;
-	nickname: string;
-}
 
 const KEY = 'user';
 
