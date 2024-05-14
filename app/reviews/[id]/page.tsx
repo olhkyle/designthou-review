@@ -1,5 +1,6 @@
 import { createClient } from '@/supabase/server';
 import { GoBackButton, Flex } from '@/components';
+import Image from 'next/image';
 
 export default async function Page({ params: { id } }: { params: { id: string } }) {
 	const supabase = createClient();
@@ -25,7 +26,13 @@ export default async function Page({ params: { id } }: { params: { id: string } 
 						</div>
 					</Flex>
 					<div className="rounded-xl">
-						<img src={imgSrc} alt={`${username}_${title}`} className="block w-full bg-cover bg-center" />
+						<Image
+							src={imgSrc}
+							alt={`${username}_${title}`}
+							width={400}
+							height={400}
+							className="block w-full bg-cover bg-center"
+						/>
 					</div>
 					<div className="mt-10">{content}</div>
 				</div>
