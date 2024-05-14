@@ -10,8 +10,13 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-	title: 'DesignThou Review',
-	description: 'Architecture Platform DesignThou Live Reviews',
+	title: 'Next Designthou',
+	description: 'Architecture Platform DesignThou Next Generation Application',
+	openGraph: {
+		title: 'Next Designthou',
+		description: 'Architecture Platform DesignThou Next Generation Application',
+		type: 'website',
+	},
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -19,10 +24,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang="ko">
 			<head>
 				<link rel="icon" sizes="any" href="/favicon.ico" />
-				<meta name="description" content="Designthou Review App" />
-				<meta property="og:title" content="Designthou Review" />
-				<meta property="og:description" content="Designthou Review App" />
-				<meta property="og:type" content="website" />
 				<meta
 					name="viewport"
 					content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
