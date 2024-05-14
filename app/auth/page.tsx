@@ -1,4 +1,5 @@
 import { AuthForm } from '@/components';
+import { Suspense } from 'react';
 
 export default async function Page() {
 	return (

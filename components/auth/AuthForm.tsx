@@ -2,13 +2,13 @@
 
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { AuthSchema, authSchema } from '../app/auth/schema';
+import { AuthSchema, authSchema } from '../../app/auth/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createClient } from '@/supabase/client';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import userState from '@/recoil/atom/userState';
-import { toast } from 'react-toastify';
 import route from '@/constants/route';
+import { useEffect, useState } from 'react';
 
 export default function AuthForm() {
 	const supabase = createClient();
@@ -24,7 +24,7 @@ export default function AuthForm() {
 		resolver: zodResolver(authSchema),
 	});
 
-	const setUser = useSetRecoilState(userState);
+	const [user, setUser] = useRecoilState(userState);
 
 	const onSubmit = async ({ email }: AuthSchema) => {
 		try {
@@ -37,15 +37,20 @@ export default function AuthForm() {
 			if (user?.length !== 0) {
 				setUser(user);
 				router.push(route.HOME);
-				toast.success('인증되었습니다', { delay: 500 });
 			}
 		} catch (error) {
 			reset();
 			setFocus('email');
-			toast.error('이메일을 다시 확인해주세요.');
+
 			console.error(error);
 		}
 	};
+
+	// useEffect(() => {
+	// 	if (user) {
+	// 		router.push(`${route.MYPAGE}/${user?.userId}`);
+	// 	}
+	// }, []);
 
 	return (
 		<form className="mt-4 w-[300px]" onSubmit={handleSubmit(onSubmit)}>
@@ -62,6 +67,7 @@ export default function AuthForm() {
 				/>
 				{errors.email?.message && <p className="pl-1 text-red text-sm">* {errors.email?.message}</p>}
 			</div>
+
 			<button type="submit" className="mt-4 px-4 py-2 w-full bg-black text-white font-bold rounded-lg">
 				인증하기
 			</button>
