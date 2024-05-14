@@ -7,7 +7,7 @@ interface ButtonProps {
 	className?: string;
 	onClick?: () => void;
 	disabled?: boolean;
-	children: ReactNode;
+	children?: ReactNode;
 	margin?: string;
 	padding?: string;
 }
@@ -26,7 +26,7 @@ export default function Button({
 			type={type}
 			onClick={onClick}
 			disabled={disabled}
-			className={`${margin} ${padding} rounded-lg font-bold ${className}`}>
+			className={`${margin} ${padding} font-semibold ${className}`}>
 			{children}
 		</button>
 	);
