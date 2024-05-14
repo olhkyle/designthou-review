@@ -1,9 +1,6 @@
 import { createClient } from '@/supabase/server';
 import { GoBackButton, Flex, CourseSelect, MyReviews } from '@/components';
-import { QueryData } from '@supabase/supabase-js';
 import { Review } from '@/supabase/schema';
-import Image from 'next/image';
-import Link from 'next/link';
 
 export default async function Page({ params: { id } }: { params: { id: string } }) {
 	const supabase = createClient();
