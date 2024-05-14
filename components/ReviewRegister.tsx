@@ -1,17 +1,29 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState, useRef } from 'react';
-import { Button, Flex, TextArea, CourseSelect } from '.';
-import { v4 as uuid } from 'uuid';
 import { FaRegImage, FaPlus } from 'react-icons/fa6';
-import { MdClose } from 'react-icons/md';
 import { createClient } from '@/supabase/client';
+import { MdClose } from 'react-icons/md';
+import { useRecoilValue } from 'recoil';
+import { Button, Flex, TextArea, CourseSelect, Loading } from '.';
+import { v4 as uuid } from 'uuid';
+import route from '@/constants/route';
+import userState from '@/recoil/atom/userState';
+
+const DEFAULT_FILE_SIZE = 1 * 1024 * 1024;
 
 export default function ReviewRegister() {
 	const supabase = createClient();
+	const router = useRouter();
+
+	const user = useRecoilValue(userState);
+
+	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
-	const [target, setTarget] = useState('');
+	const [course, setCourse] = useState('');
+	const [isRegisterLoading, setRegisterLoading] = useState(false);
 
 	const imageRef = useRef<HTMLInputElement | null>(null);
 	const [postImages, setPostImages] = useState<File[]>([]);
@@ -21,11 +33,17 @@ export default function ReviewRegister() {
 
 	const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
 		const images = e.target.files;
+		const currentImgFileSize = images?.[0].size ?? 0;
+
+		if (currentImgFileSize > DEFAULT_FILE_SIZE) {
+			alert('이미지 사이즈가 제한됩니다.');
+			return;
+		}
 
 		if (images?.length) {
 			const fileReader = new FileReader();
-			fileReader.readAsDataURL(images[0]);
 
+			fileReader.readAsDataURL(images[0]);
 			fileReader.onloadend = () => {
 				setPreviewImageUrl((fileReader.result ?? '').toString());
 			};
@@ -38,24 +56,41 @@ export default function ReviewRegister() {
 		try {
 			if (postImages.length === 0) return;
 
-			const newFileName = uuid();
+			setRegisterLoading(true);
 
-			const { error: uploadError } = await supabase.storage
-				.from('review_images')
-				.upload(`reviews/${newFileName}`, postImages[0], {
+			const [uploadImage, getReviews] = await Promise.all([
+				await supabase.storage.from('review_images').upload(`reviews/${uuid()}`, postImages[0], {
 					cacheControl: '3600',
 					upsert: false,
-				});
+				}),
+				await supabase.from('reviews').select('*'),
+			]);
 
-			if (uploadError) {
-				console.error('이미지를 업로드하는데 문제가 발생하였습니다');
-				throw uploadError;
+			const { error: reviewUploadError } = await supabase
+				.from('reviews')
+				.insert([
+					{
+						id: Math.max(...(getReviews?.data?.map(({ id }) => id) ?? [])) + 1,
+						content,
+						title,
+						imgSrc: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/${process.env.NEXT_PUBLIC_SUPABASE_REVIEWIMAGE_URL}/${uploadImage?.data?.path}`,
+						course,
+						username: user?.username,
+					},
+				])
+				.select();
+
+			if (uploadImage.error) {
+				throw { error: uploadImage.error, message: '이미지를 업로드하는데 문제가 발생하였습니다' };
+			} else if (reviewUploadError) {
+				throw { error: reviewUploadError, message: '후기 업로드에 문제가 발생하였습니다' };
 			}
 
-			// TODO: 개별 사용자마다 작성한 후기 내용 추가
-			// 마이페이지 내에 내가 작성한 후기 페이지로 이동
+			router.push(`${route.MYPAGE}/${user?.userId}`);
 		} catch (error) {
 			console.error('문제가 발생하였습니다', error);
+		} finally {
+			setRegisterLoading(false);
 		}
 	};
 
@@ -65,18 +100,24 @@ export default function ReviewRegister() {
 			direction="col"
 			alignItems="items-start"
 			margin={'mt-2'}
-			additionalStyle="px-2 py-6 bg-gray-50 border-[1px] border-gray-300 rounded-lg">
-			<Flex gap={'gap-2'} justifyContent={'justify-center'}>
-				<TextArea
-					content={content}
-					placeholder={'후기를 남겨주세요'}
-					width={'w-[100%]'}
-					setContent={setContent}
-					eventHandler={() => setRegisterToolOpened(true)}
-				/>
-			</Flex>
+			additionalStyle="px-4 py-6 bg-gray-50 border-[1px] border-gray-300 rounded-lg">
+			<input
+				type="text"
+				placeholder="제목"
+				value={title}
+				onChange={e => setTitle(e.target.value)}
+				className="mb-2 px-4 py-2 w-[90%] placeholder:text-gray-500 border-[1px] border-gray-200 rounded-lg outline-offset-2 appearance-none resize-none overflow-hidden cursor-pointer focus:outline-2 focus:outline-rose-200 hover:bg-gray-100"
+			/>
 
-			<CourseSelect target={target} setTarget={setTarget} />
+			<TextArea
+				content={content}
+				placeholder={'후기를 남겨주세요'}
+				width={'w-[90%]'}
+				setContent={setContent}
+				eventHandler={() => setRegisterToolOpened(true)}
+			/>
+
+			<CourseSelect target={course} setTarget={setCourse} />
 
 			<div
 				className={`${
@@ -134,21 +175,22 @@ export default function ReviewRegister() {
 				<div className="flex justify-between items-center mt-4">
 					<Button
 						type={'button'}
-						className={`ml-auto mr-2 w-full text-white sm:w-full ${
-							content.length === 0 || target.length === 0
+						className={`inline-flex justify-center items-center gap-4 ml-auto mr-2 w-full rounded-lg text-white sm:w-full ${
+							content.length === 0 || course.length === 0
 								? 'bg-gray-400 text-gray-700 '
 								: 'bg-orange-200 hover:bg-orange-100'
 						}`}
-						disabled={content.length === 0}
+						disabled={content.length === 0 || title.length === 0}
 						onClick={uploadImageOnStorage}>
-						등 록
+						등 록 {isRegisterLoading ? <Loading /> : null}
 					</Button>
 					<Button
 						type={'button'}
-						className={`mr-4 w-full text-gray-700 sm:w-full bg-gray-400 border-[1px] hover:border-gray-500`}
+						className={`w-full rounded-lg text-gray-700 sm:w-full bg-gray-400 border-[1px] hover:border-gray-500`}
 						onClick={() => {
-							setTarget('');
+							setTitle('');
 							setContent('');
+							setCourse('');
 							setPreviewImageUrl('');
 							setPostImages([]);
 						}}>
@@ -162,7 +204,7 @@ export default function ReviewRegister() {
 				color={'var(--color-white)'}
 				className={`${
 					isRegisterToolOpened ? 'rotate-45' : 'rotate-0'
-				} absolute -bottom-3 right-4 bg-dark rounded-full cursor-pointer transition-all`}
+				} absolute top-2 right-2 bg-dark rounded-full cursor-pointer transition-all sm:top-4 sm:right-4`}
 				onClick={() => setRegisterToolOpened(!isRegisterToolOpened)}
 			/>
 		</Flex>
