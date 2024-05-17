@@ -7,6 +7,7 @@ const route = {
 	REVIEWS: '/reviews',
 	WAREHOUSE: '/warehouse',
 	NEWS: '/news',
+	ORIGINAL_DESIGNTHOU: 'https://designthou.com',
 } as const;
 
 export default route;
