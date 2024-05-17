@@ -5,10 +5,9 @@ import { useForm } from 'react-hook-form';
 import { AuthSchema, authSchema } from '../../app/auth/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createClient } from '@/supabase/client';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import userState from '@/recoil/atom/userState';
 import route from '@/constants/route';
-import { useEffect, useState } from 'react';
 
 export default function AuthForm() {
 	const supabase = createClient();
@@ -24,18 +23,24 @@ export default function AuthForm() {
 		resolver: zodResolver(authSchema),
 	});
 
-	const [user, setUser] = useRecoilState(userState);
+	const setUser = useSetRecoilState(userState);
 
 	const onSubmit = async ({ email }: AuthSchema) => {
 		try {
-			const { data: user, error } = await supabase.from('users').select('*').eq('userEmail', email).single();
+			const { data: user, error: loginError } = await supabase
+				.from('users')
+				.select('*')
+				.eq('userEmail', email)
+				.single();
+			const isLoggined = user?.length !== 0;
 
-			if (error) {
-				throw error;
+			if (loginError) {
+				throw { error: loginError, message: '로그인에 문제가 발생하였습니다' };
 			}
 
-			if (user?.length !== 0) {
+			if (isLoggined) {
 				setUser(user);
+
 				router.push(route.HOME);
 			}
 		} catch (error) {
@@ -45,12 +50,6 @@ export default function AuthForm() {
 			console.error(error);
 		}
 	};
-
-	// useEffect(() => {
-	// 	if (user) {
-	// 		router.push(`${route.MYPAGE}/${user?.userId}`);
-	// 	}
-	// }, []);
 
 	return (
 		<form className="mt-4 w-[300px]" onSubmit={handleSubmit(onSubmit)}>
@@ -68,7 +67,9 @@ export default function AuthForm() {
 				{errors.email?.message && <p className="pl-1 text-red text-sm">* {errors.email?.message}</p>}
 			</div>
 
-			<button type="submit" className="mt-4 px-4 py-2 w-full bg-black text-white font-bold rounded-lg">
+			<button
+				type="submit"
+				className="mt-4 px-4 py-2 w-full bg-dark text-white font-bold rounded-lg transition-colors hover:bg-gray-900">
 				인증하기
 			</button>
 		</form>
