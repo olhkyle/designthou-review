@@ -7,11 +7,12 @@ import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { BsCalendar2Check } from 'react-icons/bs';
 import { RiUser3Line } from 'react-icons/ri';
+import LOGO from '@/public/logo.png';
 import { Button } from '../common';
 import userState from '@/recoil/atom/userState';
-import useClickOutside from '@/hooks/useClickOutside';
+import { useClickOutside } from '@/hooks';
 import route from '@/constants/route';
-import SideNav from './SideNav';
+import { SideNav } from '.';
 
 export default function Nav() {
 	const router = useRouter();
@@ -34,7 +35,7 @@ export default function Nav() {
 				<div className="flex justify-between items-center mx-auto h-[var(--nav-height)]">
 					<h1 className="flex-center min-w-[180px] h-[60px] cursor-pointer">
 						<Link href={route.HOME}>
-							<Image src="/logo.png" alt="logo" width={180} height={60} priority />
+							<Image src={LOGO} alt="logo" width={180} height={60} priority className="w-auto h-auto" />
 						</Link>
 					</h1>
 
@@ -80,6 +81,7 @@ export default function Nav() {
 									className="rounded-lg text-sm text-dark hover:bg-gray-400"
 									onClick={() => {
 										setDropdownActive(false);
+
 										router.push(`${route.MYPAGE}/${user?.userId}`);
 									}}>
 									MY PAGE

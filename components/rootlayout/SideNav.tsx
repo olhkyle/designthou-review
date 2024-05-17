@@ -8,7 +8,7 @@ import { MdClose } from 'react-icons/md';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { Button } from '@/components';
 import route from '@/constants/route';
-import useOverlayFixed from '@/hooks/useOverlayFixed';
+import { useOverlayFixed, ClientGate } from '@/hooks';
 
 interface SideNavProps {
 	user: User | null;
@@ -31,7 +31,7 @@ export default function SideNav({ user, setUser, isClient }: SideNavProps) {
 		<div className="block md:hidden">
 			<Button
 				type="button"
-				className="inline-block font-normal text-sm text-dark border-[1px] border-gray-50 rounded-lg hover:bg-gray-400 hover:font-semibold md:hidden"
+				className="inline-block font-normal text-sm text-dark border-[1px] border-gray-50 rounded-lg hover:bg-gray-400 hover:font-semibold md:hidden transition-all"
 				onClick={() => {
 					setSideNavActive(!isSideNavActive);
 				}}>
@@ -41,7 +41,7 @@ export default function SideNav({ user, setUser, isClient }: SideNavProps) {
 			<div
 				className={`${
 					isSideNavActive ? 'fixed visible' : 'hidden'
-				} top-[var(--nav-height)] left-0 right-0 bottom-0 flex flex-col justify-between items-center p-2 w-full h-[calc(100vh-var(--nav-height))] bg-white overflow-y-scroll md:hidden transition-all`}>
+				} top-[var(--nav-height)] left-0 right-0 bottom-0 flex flex-col justify-between items-center p-4 w-full h-[calc(100vh-var(--nav-height))] bg-white overflow-y-scroll md:hidden transition-all`}>
 				<div className="flex flex-col justify-between items-center gap-2 w-full">
 					<Link
 						href={route.NEWS}
@@ -67,24 +67,26 @@ export default function SideNav({ user, setUser, isClient }: SideNavProps) {
 				</div>
 
 				<div className={`${isSideNavActive ? 'flex' : 'hidden'} flex-col justify-center items-center w-full h-[60px]`}>
-					{isClient && user ? (
+					<ClientGate>
 						<Button
 							type="button"
-							className="inline-flex justify-center items-center w-full h-[48px] font-semibold text-white bg-dark rounded-lg focus:bg-gray-800 active:bg-gray-800"
+							className="inline-flex justify-center items-center w-full h-[48px] font-semibold text-white text-lg bg-orange-400 rounded-lg focus:bg-orange-300 active:bg-orange-300"
 							onClick={() => {
+								if (!user) {
+									setSideNavActive(false);
+
+									router.push(route.AUTH);
+									return;
+								}
+
 								setSideNavActive(false);
 								setUser(null);
+
+								router.push(route.HOME);
 							}}>
-							로그아웃
+							{user ? 'LOGOUT' : 'LOGIN'}
 						</Button>
-					) : (
-						<Button
-							type="button"
-							className="inline-flex justify-center items-center w-full h-[48px] font-semibold text-white bg-orange-400 rounded-lg focus:bg-orange-300 active:bg-orange-300"
-							onClick={() => router.push(route.AUTH)}>
-							로그인
-						</Button>
-					)}
+					</ClientGate>
 				</div>
 			</div>
 		</div>
