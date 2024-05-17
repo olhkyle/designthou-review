@@ -1,7 +1,7 @@
 import { User } from '@/supabase/schema';
 import { AtomEffect, atom } from 'recoil';
 
-const KEY = 'user';
+const KEY = 'supausereres';
 
 const localStorageEffect: <T>(key: string) => AtomEffect<T | null> =
 	key =>
