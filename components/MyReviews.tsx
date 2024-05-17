@@ -4,13 +4,14 @@ import { Suspense, useState } from 'react';
 import { CourseSelect, Flex } from '.';
 import { Review } from '@/supabase/schema';
 import Image from 'next/image';
+import { IndividualCourse } from '@/constants/course';
 
 interface MyReviewsProps {
 	data: Review[] | null;
 }
 
 export default function MyReviews({ data = [] }: MyReviewsProps) {
-	const [currentCourse, setCurrentCourse] = useState('rhino');
+	const [currentCourse, setCurrentCourse] = useState<IndividualCourse>('rhino');
 
 	return (
 		<div>

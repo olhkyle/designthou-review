@@ -3,14 +3,14 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useState, useRef } from 'react';
-import { FaRegImage, FaPlus } from 'react-icons/fa6';
 import { createClient } from '@/supabase/client';
-import { MdClose } from 'react-icons/md';
-import { useRecoilValue } from 'recoil';
-import { Button, Flex, TextArea, CourseSelect, Loading } from '.';
 import { v4 as uuid } from 'uuid';
+import { FaRegImage, FaPlus } from 'react-icons/fa6';
+import { MdClose } from 'react-icons/md';
+import { Button, Flex, TextArea, CourseSelect, Loading } from '.';
+import { useUserLoggined } from '@/hooks';
 import route from '@/constants/route';
-import userState from '@/recoil/atom/userState';
+import { IndividualCourse } from '@/constants/course';
 
 const DEFAULT_FILE_SIZE = 1 * 1024 * 1024;
 
@@ -18,11 +18,11 @@ export default function ReviewRegister() {
 	const supabase = createClient();
 	const router = useRouter();
 
-	const user = useRecoilValue(userState);
+	const { user, isLoginned } = useUserLoggined();
 
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
-	const [course, setCourse] = useState('');
+	const [currentCourse, setCurrentCourse] = useState<IndividualCourse>('');
 	const [isRegisterLoading, setRegisterLoading] = useState(false);
 
 	const imageRef = useRef<HTMLInputElement | null>(null);
@@ -74,7 +74,7 @@ export default function ReviewRegister() {
 						content,
 						title,
 						imgSrc: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/${process.env.NEXT_PUBLIC_SUPABASE_REVIEWIMAGE_URL}/${uploadImage?.data?.path}`,
-						course,
+						course: currentCourse,
 						username: user?.username,
 					},
 				])
@@ -101,14 +101,30 @@ export default function ReviewRegister() {
 			alignItems="items-start"
 			margin={'mt-2'}
 			additionalStyle="px-4 py-6 bg-gray-50 border-[1px] border-gray-300 rounded-lg">
+			<label htmlFor="title" className="hidden">
+				제목
+			</label>
 			<input
 				type="text"
+				id="title"
 				placeholder="제목"
 				value={title}
-				onChange={e => setTitle(e.target.value)}
+				onChange={e => {
+					if (!isLoginned) {
+						router.push(route.AUTH);
+						return;
+					}
+
+					setTitle(e.target.value);
+				}}
+				onClick={() => {
+					if (!isLoginned) {
+						router.push(route.AUTH);
+						return;
+					}
+				}}
 				className="mb-2 px-4 py-2 w-[90%] placeholder:text-gray-500 border-[1px] border-gray-200 rounded-lg outline-offset-2 appearance-none resize-none overflow-hidden cursor-pointer focus:outline-2 focus:outline-rose-200 hover:bg-gray-100"
 			/>
-
 			<TextArea
 				content={content}
 				placeholder={'후기를 남겨주세요'}
@@ -116,9 +132,7 @@ export default function ReviewRegister() {
 				setContent={setContent}
 				eventHandler={() => setRegisterToolOpened(true)}
 			/>
-
-			<CourseSelect target={course} setTarget={setCourse} />
-
+			<CourseSelect target={currentCourse} setTarget={setCurrentCourse} />
 			<div
 				className={`${
 					isRegisterToolOpened ? 'block w-full h-auto' : 'invisible h-0 overflow-hidden'
@@ -126,7 +140,7 @@ export default function ReviewRegister() {
 				<div className="flex flex-col gap-2 mt-3 w-full sm:flex-row sm:gap-6">
 					<div className="flex gap-2">
 						<div
-							className="flex flex-col justify-center items-center py-2 bg-white rounded-lg border-[1px] cursor-pointer hover:bg-gray-100 hover:border-gray-600"
+							className="flex flex-col justify-center items-center py-2 bg-white rounded-lg border-[1px] cursor-pointer transition-all hover:bg-gray-100 hover:border-gray-600"
 							onClick={() => {
 								imageRef.current?.click();
 							}}>
@@ -176,7 +190,7 @@ export default function ReviewRegister() {
 					<Button
 						type={'button'}
 						className={`inline-flex justify-center items-center gap-4 ml-auto mr-2 w-full rounded-lg text-white sm:w-full ${
-							content.length === 0 || course.length === 0
+							content.length === 0 || currentCourse.length === 0
 								? 'bg-gray-400 text-gray-700 '
 								: 'bg-orange-200 hover:bg-orange-100'
 						}`}
@@ -186,11 +200,11 @@ export default function ReviewRegister() {
 					</Button>
 					<Button
 						type={'button'}
-						className={`w-full rounded-lg text-gray-700 sm:w-full bg-gray-400 border-[1px] hover:border-gray-500`}
+						className={`w-full rounded-lg text-gray-700 bg-gray-300 `}
 						onClick={() => {
 							setTitle('');
 							setContent('');
-							setCourse('');
+							setCurrentCourse('');
 							setPreviewImageUrl('');
 							setPostImages([]);
 						}}>
@@ -198,7 +212,6 @@ export default function ReviewRegister() {
 					</Button>
 				</div>
 			</div>
-
 			<FaPlus
 				size={24}
 				color={'var(--color-white)'}
