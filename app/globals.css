@@ -17,14 +17,15 @@
 
 	--color-gray-50: #f3f4f4;
 	--color-gray-100: #f9fafb;
-	--color-gray-200: #f0f1f5;
-	--color-gray-300: #dedfe2;
-	--color-gray-400: #e1e1e3;
-	--color-gray-500: #b5b5b9;
-	--color-gray-600: #939393;
-	--color-gray-700: #757575;
-	--color-gray-800: #2e3039;
-	--color-gray-900: #1f2028;
+	--color-gray-200: #f2f4f6;
+	--color-gray-300: #e5e8eb;
+	--color-gray-400: #d1d6db;
+	--color-gray-500: #b0b8c1;
+	--color-gray-600: #8b95a1;
+	--color-gray-700: #6b7684;
+	--color-gray-800: #4e5968;
+	--color-gray-900: #333d4b;
+	--color-gray-950: #191f28;
 	--color-transparent-bgColor-hover: #b1bac41f;
 
 	--color-green-100: #76e4b8;
@@ -162,4 +163,20 @@ body[data-theme='light'] {
 
 .clip-path-button {
 	clip-path: polygon(0 0, 100% 0, 100% 70%, 88.5% 100%, 0 100%);
+}
+
+.loading-pulse {
+	border-radius: 12px;
+	background-color: var(--color-gray-50);
+	animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+	@keyframes pulse {
+		0%,
+		100% {
+			opacity: 1;
+		}
+		50% {
+			opacity: 0.5;
+		}
+	}
 }
