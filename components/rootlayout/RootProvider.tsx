@@ -15,7 +15,7 @@ export default function RootProvider({ children }: RootProviderProps) {
 		<RecoilRoot>
 			<div id="wrap" className="mx-auto md:w-[768px] lg:w-[1024px]">
 				<Nav />
-				<main className="p-[1rem] ">{children}</main>
+				<main className="p-[1rem] sm:py-[2.5rem]">{children}</main>
 				<Link href="https://designthou.com" target="_blank">
 					<Image
 						src="/small_logo.png"
