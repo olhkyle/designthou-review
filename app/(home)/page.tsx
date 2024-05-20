@@ -1,11 +1,11 @@
-import { ReviewRegister, Reviews, ReviewsLoading } from '@/components';
+import { ReviewRegister, Reviews, ReviewsLoader } from '@/components';
 import { Suspense } from 'react';
 
 export default function Page() {
 	return (
 		<>
 			<ReviewRegister />
-			<Suspense fallback={<ReviewsLoading />}>
+			<Suspense fallback={<ReviewsLoader />}>
 				<Reviews />
 			</Suspense>
 		</>
