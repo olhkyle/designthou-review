@@ -4,4 +4,4 @@ Designthou's review registering Application
 
 ### Tech Stacks
 
-`NextJS` `TypeScript` `TailwindCSS` `Supabase`
+`NextJS` `TypeScript` `TailwindCSS` `Supabase` **`Zod`**

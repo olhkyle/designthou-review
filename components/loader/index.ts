@@ -1,1 +1,2 @@
-export { default as ReviewsLoading } from './ReviewsLoading';
+export { default as ReviewsLoader } from './ReviewsLoader';
+export { default as WriterRelatedReviewsLoader } from './WriterRelatedReviewsLoader';

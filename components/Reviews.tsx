@@ -1,6 +1,6 @@
-import { createClient } from '@/supabase/client';
 import Image from 'next/image';
 import Link from 'next/link';
+import { createClient } from '@/supabase/client';
 import DEFAULT_IMG_URL from '@/public/default_img.png';
 import blurDataUrl from '@/constants/blurDataUrl';
 
