@@ -1,7 +1,7 @@
 import { User } from '@/supabase/schema';
 import { AtomEffect, atom } from 'recoil';
 
-const KEY = 'supausereres';
+const KEY = 'supauseres';
 
 const localStorageEffect: <T>(key: string) => AtomEffect<T | null> =
 	key =>
@@ -12,6 +12,7 @@ const localStorageEffect: <T>(key: string) => AtomEffect<T | null> =
 			if (user !== null) {
 				setSelf(JSON.parse(user));
 			}
+
 			onSet((newState, _, isReset) => {
 				isReset ? localStorage.removeItem(KEY) : localStorage.setItem(key, JSON.stringify(newState));
 			});

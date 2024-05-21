@@ -1,5 +1,5 @@
-import { Loading as Spinner } from '@/components';
+import { WholePageLoader } from '@/components';
 
 export default function Loading() {
-	return <Spinner />;
+	return <WholePageLoader />;
 }

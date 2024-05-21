@@ -1,6 +1,6 @@
 export * from './common';
 export * from './auth';
-export * from './rootlayout';
+export * from './layouts';
 export * from './loader';
 
 export { default as GoBackButton } from './GoBackButton';

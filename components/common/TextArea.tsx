@@ -26,7 +26,7 @@ export default function TextArea({
 			placeholder={placeholder}
 			maxLength={500}
 			rows={1}
-			className={`px-4 py-2 ${width} placeholder:text-gray-500 border-[1px] border-gray-200 rounded-lg outline-offset-2 appearance-none cursor-pointer focus:outline-2 focus:outline-rose-200 resize-none overflow-hidden hover:bg-gray-100`}
+			className={`px-4 py-2 ${width} placeholder:text-gray-500 border border-gray-200 rounded-lg outline-offset-2 appearance-none cursor-pointer focus:outline-2 focus:outline-rose-200 resize-none overflow-hidden hover:bg-gray-100`}
 			onChange={e => {
 				if (!eventHandler) return;
 				eventHandler();

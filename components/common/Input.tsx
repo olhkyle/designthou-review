@@ -7,7 +7,7 @@ export default function Input({ placeholder }: InputProps) {
 		<input
 			type="text"
 			placeholder={placeholder}
-			className="px-4 py-2 border-[1px] border-gray-200 rounded-lg focus:border-black outline-none"
+			className="px-4 py-2 border border-gray-200 rounded-lg focus:border-black outline-none"
 		/>
 	);
 }

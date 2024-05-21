@@ -61,7 +61,7 @@ export default function AuthForm() {
 					type="email"
 					id="email"
 					placeholder="이메일을 입력하세요"
-					className="px-4 py-2 placeholder:text-gray-500 border-[1px] border-gray-200 rounded-lg outline-offset-2 appearance-none focus:outline-2 focus:outline-rose-200 resize-none overflow-hidden hover:bg-gray-100"
+					className="px-4 py-2 placeholder:text-gray-500 border border-gray-200 rounded-lg outline-offset-2 appearance-none focus:outline-2 focus:outline-rose-200 resize-none overflow-hidden hover:bg-gray-100"
 					{...register('email')}
 				/>
 				{errors.email?.message && <p className="pl-1 text-red text-sm">* {errors.email?.message}</p>}
