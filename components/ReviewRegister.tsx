@@ -7,7 +7,7 @@ import { createClient } from '@/supabase/client';
 import { v4 as uuid } from 'uuid';
 import { FaRegImage, FaPlus } from 'react-icons/fa6';
 import { MdClose } from 'react-icons/md';
-import { Button, Flex, TextArea, CourseSelect, Loading } from '.';
+import { Button, Flex, TextArea, CourseSelect, Loader } from '.';
 import { useUserLoggined } from '@/hooks';
 import route from '@/constants/route';
 import { IndividualCourse } from '@/constants/course';
@@ -82,7 +82,9 @@ export default function ReviewRegister() {
 
 			if (uploadImage.error) {
 				throw { error: uploadImage.error, message: '이미지를 업로드하는데 문제가 발생하였습니다' };
-			} else if (reviewUploadError) {
+			}
+
+			if (reviewUploadError) {
 				throw { error: reviewUploadError, message: '후기 업로드에 문제가 발생하였습니다' };
 			}
 
@@ -100,7 +102,7 @@ export default function ReviewRegister() {
 			direction="col"
 			alignItems="items-start"
 			margin={'mt-2'}
-			additionalStyle="px-4 py-6 bg-gray-50 border-[1px] border-gray-300 rounded-lg">
+			additionalStyle="px-4 py-6 bg-gray-50 border border-gray-300 rounded-lg">
 			<label htmlFor="title" className="hidden">
 				제목
 			</label>
@@ -123,7 +125,7 @@ export default function ReviewRegister() {
 						return;
 					}
 				}}
-				className="mb-2 px-4 py-2 w-[90%] placeholder:text-gray-500 border-[1px] border-gray-200 rounded-lg outline-offset-2 appearance-none resize-none overflow-hidden cursor-pointer focus:outline-2 focus:outline-rose-200 hover:bg-gray-100"
+				className="mb-2 px-4 py-2 w-[90%] placeholder:text-gray-500 border border-gray-200 rounded-lg outline-offset-2 appearance-none resize-none overflow-hidden cursor-pointer focus:outline-2 focus:outline-rose-200 hover:bg-gray-100"
 			/>
 			<TextArea
 				content={content}
@@ -140,7 +142,7 @@ export default function ReviewRegister() {
 				<div className="flex flex-col gap-2 mt-3 w-full sm:flex-row sm:gap-6">
 					<div className="flex gap-2">
 						<div
-							className="flex flex-col justify-center items-center py-2 bg-white rounded-lg border-[1px] cursor-pointer transition-all hover:bg-gray-100 hover:border-gray-600"
+							className="flex flex-col justify-center items-center py-2 bg-white rounded-lg border cursor-pointer transition-all hover:bg-gray-100 hover:border-gray-600"
 							onClick={() => {
 								imageRef.current?.click();
 							}}>
@@ -196,7 +198,7 @@ export default function ReviewRegister() {
 						}`}
 						disabled={content.length === 0 || title.length === 0}
 						onClick={uploadImageOnStorage}>
-						등 록 {isRegisterLoading ? <Loading /> : null}
+						등 록 {isRegisterLoading ? <Loader /> : null}
 					</Button>
 					<Button
 						type={'button'}

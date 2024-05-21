@@ -1,10 +1,11 @@
 'use client';
 
-import { Suspense, useState } from 'react';
+import { useState } from 'react';
 import { CourseSelect, Flex } from '.';
 import { Review } from '@/supabase/schema';
 import Image from 'next/image';
 import { IndividualCourse } from '@/constants/course';
+import blurDataUrl from '@/constants/blurDataUrl';
 
 interface MyReviewsProps {
 	data: Review[] | null;
@@ -26,22 +27,29 @@ export default function MyReviews({ data = [] }: MyReviewsProps) {
 
 			<ul className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2">
 				{data
-					?.filter(review => review.course === currentCourse)
-					?.map(({ title, content, course, imgSrc }) => (
+					?.filter(({ course }) => course === currentCourse)
+					?.map(({ title, content, imgSrc }) => (
 						<li
 							key={title}
-							className="flex justify-center items-center gap-4 p-2 bg-white border-[1px] border-gray-400 rounded-lg cursor-pointer hover:bg-gray-10">
-							<Suspense fallback={<h2>loading</h2>}>
-								<Image src={imgSrc} alt={`${title}/${content}`} width={100} height={100} className="rounded-lg" />
-							</Suspense>
-							<Flex direction={'col'} justifyContent={'justify-between'}>
-								<Flex justifyContent={'justify-between'} alignItems="items-center">
-									<span className="font-bold text-lg">{title}</span>
-									<span className="px-[4px] py-[2px] text-white from-rose-300 to-orange-100 bg-gradient-to-r rounded-lg">
-										{course}
-									</span>
-								</Flex>
-								<div className="h-[24px] text-ellipsis overflow-hidden break-keep whitespace-nowrap">{content}</div>
+							className="flex items-center gap-4 p-2 min-h-[100px] bg-white border border-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-10">
+							<div className="min-w-[100px] md:min-w-[120px]">
+								<Image
+									src={imgSrc}
+									alt={`${title}/${content}`}
+									className="w-[100px] sm:w-[150px] object-contain rounded-lg"
+									width={150}
+									height={100}
+									sizes={'(min-width: 640px): 150px, 100px'}
+									placeholder="blur"
+									blurDataURL={blurDataUrl}
+								/>
+							</div>
+
+							<Flex direction={'col'} gap="gap-1 sm:gap-2" additionalStyle={'h-full'}>
+								<span className="font-bold">{title}</span>
+								<p className="h-[100px] text-ellipsis overflow-hidden whitespace-wrap break-keep text-sm sm:h-full">
+									{content}
+								</p>
 							</Flex>
 						</li>
 					))}

@@ -1,6 +1,6 @@
-export default function Loading() {
+export default function WholePageLoader() {
 	return (
-		<div className="flex justify-center items-center w-full h-screen">
+		<div className="fixed top-0 left-0 flex justify-center items-center w-full h-screen">
 			<svg
 				className="animate-spin h-8 w-8 text-white"
 				xmlns="http://www.w3.org/2000/svg"

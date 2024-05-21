@@ -4,7 +4,7 @@ const route = {
 	ADMIN: '/admin',
 	MYPAGE: '/mypage',
 	CALENDAR: '/calendar',
-	REVIEWS: '/reviews',
+	REVIEW: '/review',
 	WAREHOUSE: '/warehouse',
 	NEWS: '/news',
 	ORIGINAL_DESIGNTHOU: 'https://designthou.com',

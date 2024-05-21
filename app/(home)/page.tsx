@@ -1,5 +1,5 @@
-import { ReviewRegister, Reviews, ReviewsLoader } from '@/components';
 import { Suspense } from 'react';
+import { ReviewRegister, Reviews, ReviewsLoader } from '@/components';
 
 export default function Page() {
 	return (

@@ -19,7 +19,7 @@ export default async function Reviews() {
 				<li
 					key={id}
 					className="px-4 py-4 border border-gray-200 rounded-xl outline-rose-200 outline-2 outline-offset-2 hover:outline active:outline cursor-pointer transition-all sm:px-6 md:px-8 md:py-6">
-					<Link href={`/reviews/${id}`} className="flex flex-col gap-8 justify-between sm:flex-row">
+					<Link href={`/review/${id}`} className="flex flex-col gap-8 justify-between sm:flex-row">
 						<Image
 							src={imgSrc ?? DEFAULT_IMG_URL}
 							alt={`${username}_${title}`}
@@ -31,7 +31,7 @@ export default async function Reviews() {
 							blurDataURL={blurDataUrl}
 						/>
 
-						<div className="">
+						<div>
 							<div className="justify-between items-center mb-2 sm:flex">
 								<div className="font-bold text-sm sm:text-[15px]">{title}</div>
 								<span className="px-2 py-1 text-xs font-semibold text-white bg-dark rounded-lg">

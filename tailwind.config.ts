@@ -11,6 +11,9 @@ module.exports = {
 	darkMode: ['class', '[data-theme="dark"]'],
 	theme: {
 		extend: {
+			height: {
+				'real-screen': 'calc(var(--vh) * 100)',
+			},
 			colors: {
 				black: 'var(--color-black)',
 				white: 'var(--color-white)',
@@ -51,6 +54,9 @@ module.exports = {
 			fontFamily: {
 				sans: ['Poppins', 'Spoqa Han Sans Neo', 'sans-serif', ...defaultTheme.fontFamily.sans],
 			},
+		},
+		minHeight: {
+			'real-screen': 'calc(var(--vh) * 100)',
 		},
 	},
 };
