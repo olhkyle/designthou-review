@@ -31,6 +31,7 @@ export default function ReviewRegister() {
 
 	const [isRegisterToolOpened, setRegisterToolOpened] = useState<boolean>(false);
 
+	// TODO: mobile SAFARI doesn't work
 	const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
 		const images = e.target.files;
 		const currentImgFileSize = images?.[0].size ?? 0;
@@ -98,11 +99,11 @@ export default function ReviewRegister() {
 
 	return (
 		<Flex
-			position="relative"
-			direction="col"
-			alignItems="items-start"
+			position={'relative'}
+			direction={'col'}
+			alignItems={'items-start'}
 			margin={'mt-2'}
-			additionalStyle="px-4 py-6 bg-gray-50 border border-gray-300 rounded-lg">
+			additionalStyle={'px-4 py-6 bg-gray-50 border border-gray-300 rounded-lg'}>
 			<label htmlFor="title" className="hidden">
 				제목
 			</label>

@@ -26,8 +26,8 @@ export default function Flex({
 	return (
 		<div
 			className={`${position} flex ${
-				direction === 'col' && 'flex-col'
-			} ${gap} ${justifyContent} ${alignItems} ${margin} ${padding} ${additionalStyle} w-full`}>
+				direction === 'col' ? 'flex-col' : 'flex-row'
+			} ${gap} ${justifyContent} ${alignItems} ${margin} ${padding} w-full ${additionalStyle}`}>
 			{children}
 		</div>
 	);

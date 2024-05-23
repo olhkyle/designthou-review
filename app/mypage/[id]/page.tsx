@@ -4,12 +4,13 @@ import { Review } from '@/supabase/schema';
 import route from '@/constants/route';
 import Link from 'next/link';
 
-interface MyPageProps {
+interface PageProps {
 	params: { id: string };
 }
 
-export default async function Page({ params: { id } }: MyPageProps) {
+export default async function Page({ params: { id } }: PageProps) {
 	const supabase = createClient();
+
 	const {
 		data: { username, userEmail, role },
 		error: getUserIdError,

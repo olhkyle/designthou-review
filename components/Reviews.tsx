@@ -7,7 +7,7 @@ import blurDataUrl from '@/constants/blurDataUrl';
 export default async function Reviews() {
 	const supabase = createClient();
 
-	const { data: reviews, error } = await supabase.from('reviews').select('*');
+	const { data: reviews, error } = await supabase.from('reviews').select('*').range(0, 9);
 
 	if (error) {
 		throw error;
@@ -15,7 +15,7 @@ export default async function Reviews() {
 
 	return (
 		<ul className="flex flex-col gap-4 my-10">
-			{reviews?.slice(0, 9).map(({ id, username, title, content, imgSrc }) => (
+			{reviews.map(({ id, username, title, content, imgSrc }) => (
 				<li
 					key={id}
 					className="px-4 py-4 border border-gray-200 rounded-xl outline-rose-200 outline-2 outline-offset-2 hover:outline active:outline cursor-pointer transition-all sm:px-6 md:px-8 md:py-6">
@@ -23,9 +23,9 @@ export default async function Reviews() {
 						<Image
 							src={imgSrc ?? DEFAULT_IMG_URL}
 							alt={`${username}_${title}`}
-							className="w-[300px] sm:w-[400px] object-contain"
 							width={400}
 							height={266}
+							className="w-[300px] sm:w-[400px] object-contain"
 							sizes={'(min-width: 640px): 400px, 300px'}
 							placeholder="blur"
 							blurDataURL={blurDataUrl}

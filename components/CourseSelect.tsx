@@ -1,6 +1,6 @@
-import course, { IndividualCourse } from '@/constants/course';
 import { Dispatch, SetStateAction } from 'react';
 import { MdClose } from 'react-icons/md';
+import course, { IndividualCourse } from '@/constants/course';
 
 interface CourseSelectProps {
 	target: IndividualCourse;
