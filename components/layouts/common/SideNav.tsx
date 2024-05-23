@@ -7,8 +7,8 @@ import { User } from '@/supabase/schema';
 import { MdClose } from 'react-icons/md';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { Button } from '@/components';
-import route from '@/constants/route';
 import { useOverlayFixed, ClientGate } from '@/hooks';
+import route from '@/constants/route';
 
 interface SideNavProps {
 	user: User | null;
@@ -44,21 +44,18 @@ export default function SideNav({ user, setUser, isClient }: SideNavProps) {
 				} top-[var(--nav-height)] left-0 right-0 bottom-0 p-4 max-w-screen w-full h-[calc(100vh-var(--nav-height))] bg-white overflow-y-scroll md:hidden z-50`}>
 				<div className="flex flex-col justify-between h-full">
 					<div className="flex flex-col justify-between items-center gap-2 w-full">
-						<Link
-							href={route.NEWS}
-							className="p-4 w-full border border-gray-50 font-semibold rounded-lg hover:bg-gray-50 active:bg-gray-400">
-							NEWS
-						</Link>
-						<Link
-							href={route.CALENDAR}
-							className="p-4 w-full border border-gray-50 font-semibold rounded-lg hover:bg-gray-50 active:bg-gray-400">
-							RECRUIT CALENDAR
-						</Link>
-						<Link
-							href={route.WAREHOUSE}
-							className="p-4 w-full border border-gray-50 font-semibold rounded-lg hover:bg-gray-50 active:bg-gray-400">
-							WAREHOUSE
-						</Link>
+						{[
+							{ name: 'NEWS', href: route.NEWS },
+							{ name: 'RECRUIT CALNEDAR', href: route.CALENDAR },
+							{ name: 'WAREHOUSE', href: route.WAREHOUSE },
+						].map(({ name, href }) => (
+							<Link
+								key={name}
+								href={href}
+								className="p-4 w-full border border-gray-50 font-semibold rounded-lg hover:bg-gray-50 active:bg-gray-400">
+								{name}
+							</Link>
+						))}
 
 						<Link
 							href={isClient && user ? `${route.MYPAGE}/${user.userId}` : route.AUTH}

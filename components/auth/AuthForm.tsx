@@ -32,6 +32,7 @@ export default function AuthForm() {
 				.select('*')
 				.eq('userEmail', email)
 				.single();
+
 			const isLoggined = user?.length !== 0;
 
 			if (loginError) {
@@ -51,6 +52,8 @@ export default function AuthForm() {
 		}
 	};
 
+	//TODO: 로그인 혹은 로그아웃 되었다는 알림 / pop modal 필요
+
 	return (
 		<form className="mt-4 w-[300px]" onSubmit={handleSubmit(onSubmit)}>
 			<div className="flex flex-col gap-2">
@@ -61,7 +64,7 @@ export default function AuthForm() {
 					type="email"
 					id="email"
 					placeholder="이메일을 입력하세요"
-					className="px-4 py-2 placeholder:text-gray-500 border border-gray-200 rounded-lg outline-offset-2 appearance-none focus:outline-2 focus:outline-rose-200 resize-none overflow-hidden hover:bg-gray-100"
+					className="px-4 py-2 placeholder:text-gray-500 border border-gray-200 rounded-lg outline-offset-2 appearance-none resize-none overflow-hidden hover:bg-gray-100 focus:outline-2 focus:outline-rose-200 "
 					{...register('email')}
 				/>
 				{errors.email?.message && <p className="pl-1 text-red text-sm">* {errors.email?.message}</p>}

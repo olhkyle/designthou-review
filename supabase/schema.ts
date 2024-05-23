@@ -63,6 +63,36 @@ export interface Database {
 					nickname: string;
 				};
 			};
+			news: {
+				Row: {
+					id: number;
+					title: string;
+					url: string;
+					createdAt: Date;
+					updatedAt: Date;
+				};
+				Insert: {
+					id: number;
+					title: string;
+					url: string;
+					createdAt: Date;
+					updatedAt?: Date;
+				};
+				Update: {
+					id: number;
+					title: string;
+					url: string;
+					createdAt?: Date;
+					updatedAt: Date;
+				};
+				Delete: {
+					id: number;
+					title: string;
+					url?: string;
+					createdAt?: Date;
+					updatedAt?: Date;
+				};
+			};
 		};
 	};
 }

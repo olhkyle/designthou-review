@@ -1,12 +1,17 @@
 import Image from 'next/image';
 import { createClient } from '@/supabase/server';
+import { Suspense } from 'react';
 import { Flex } from '@/components';
 import DEFAULT_IMG_URL from '@/public/default_img.png';
-import { Suspense } from 'react';
 import { WriterRelatedReviews } from '@/components/review';
 import WriterRelatedReviewsLoader from '@/components/loader/WriterRelatedReviewsLoader';
+import blurDataUrl from '@/constants/blurDataUrl';
 
-export default async function Page({ params: { id: reviewId } }: { params: { id: string } }) {
+interface PageProps {
+	params: { id: string };
+}
+
+export default async function Page({ params: { id: reviewId } }: PageProps) {
 	const supabase = createClient();
 
 	const {
@@ -33,8 +38,11 @@ export default async function Page({ params: { id: reviewId } }: { params: { id:
 						src={imgSrc ?? DEFAULT_IMG_URL}
 						alt={`${username}_${title}`}
 						width={400}
-						height={400}
+						height={266}
 						className="block w-full bg-cover object-center rounded-xl"
+						sizes={'(min-width: 640px): 400px, 300px'}
+						placeholder="blur"
+						blurDataURL={blurDataUrl}
 					/>
 
 					<div className="mt-10">{content}</div>

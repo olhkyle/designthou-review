@@ -5,6 +5,7 @@ import { RecoilRoot } from 'recoil';
 import Link from 'next/link';
 import Image from 'next/image';
 import { AdminNav } from '.';
+import route from '@/constants/route';
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
 	return (
@@ -12,7 +13,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 			<div id="wrap" className="flex mx-auto w-full h-full">
 				<AdminNav />
 				<main className="p-[1rem] sm:py-[2.5rem]">{children}</main>
-				<Link href="https://designthou.com" target="_blank">
+				<Link href={route.ORIGINAL_DESIGNTHOU} target="_blank">
 					<Image
 						src="/small_logo.png"
 						alt="designthou"

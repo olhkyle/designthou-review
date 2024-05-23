@@ -1,6 +1,5 @@
-import { GoBackButton } from '@/components';
-
 import { ReactNode } from 'react';
+import { GoBackButton } from '@/components';
 
 export default async function Layout({ children }: { children: ReactNode }) {
 	return (

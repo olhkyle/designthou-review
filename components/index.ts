@@ -1,7 +1,8 @@
+export * from './layouts';
 export * from './common';
 export * from './auth';
-export * from './layouts';
 export * from './loader';
+export * from './news';
 
 export { default as GoBackButton } from './GoBackButton';
 export { default as AuthForm } from './auth/AuthForm';
